@@ -1,0 +1,57 @@
+{% extends 'trainee_calendar/base.html' %}
+
+{% block content %}
+    <div class="clearfix">
+        {% if search_term or search_filter %}
+            <a class="btn btn-info left" href="{% url 'trainee_calendar:calendar' %}?{{ prev_month }}&search_term={{ search_term }}&filter={{ search_filter }}"> Previous Month </a>
+            <a class="btn btn-info right" href="{% url 'trainee_calendar:calendar' %}?{{ next_month }}&search_term={{ search_term }}&filter={{ search_filter }}"> Next Month </a>
+        {% else %}
+            <a class="btn btn-info left" href="{% url 'trainee_calendar:calendar' %}?{{ prev_month }}"> Previous Month </a>
+            <a class="btn btn-info right" href="{% url 'trainee_calendar:calendar' %}?{{ next_month }}"> Next Month </a>
+        {% endif %}
+        <form class="filter-form" method="get" action="">
+            {% if search_term %}
+                <input name="search_term" value="{{ search_term }}" type="text" class="form-control" placeholder="Search for...">
+            {% else %}
+                <input name="search_term" value="" type="text" class="form-control" placeholder="Search for...">
+            {% endif %}
+
+            <select name="filter" value={{ filter }} class="form-control">
+                <option value="all"> All </option>
+                <option value="subject"> subject </option>
+            
+            </select>
+            <button class="btn">Filter</button>
+        </form>
+
+    </div>
+    {% if appointment_search_results %}
+     <div>
+        <h5>Appointments</h5>
+        <table class="table">
+
+            <tr>
+                <th>Visit Code</th>
+                <th>Subject Identifier</th>
+                <th>Appointment Date</th>
+                <th>Navigate</th>
+            </tr>
+
+            {% for search_result in appointment_search_results %}
+
+                <tr>
+                    <td>{{ search_result.visit_code }}</td>
+                    <td>{{ search_result.subject_identifier }}</td>
+                    <td>{{ search_result.appt_datetime|date:'Y-m-d'}}</td>
+                    <td><a class="btn btn-primary" href="?month={{search_result.appt_datetime.year}}-{{search_result.appt_datetime.month}}">
+                        Navigate To Month
+                    </a></td>
+                </tr>
+            
+            {% endfor %}
+
+        </table>
+     </div>
+    {% endif %}
+    {{ calendar }}
+{% endblock %}

@@ -1,0 +1,28 @@
+<div class="appointment-container" style="border:none">
+    <button
+            class="label  appointment"
+            id="appointment"
+            data-toggle="popover"
+            title="<a target='__blank'
+        href='/subject/{{ dashboard_type }}/{{ subject_identifier }}/'>Dashboard</a>"
+            data-content="
+    {% if view_locator_href %}<a href='{{ view_locator_href }}'>View Locator Information</a><br/>{% endif %}
+    Visit Code : {{ visit_code }}<br> Status : {{ status }} {{ model_obj }}
+    <br/> 
+
+    Reschedules: {{ resceduled_appointments_count }}
+        <br/>
+
+        <strong>Comments</strong>
+        <br/>
+
+        <ul>
+            <hr>
+            ">
+            <span style="color: black">{{ subject_identifier }}</span>
+        {{ icon }}
+        </ul>
+        <hr>
+    
+    </button>
+</div>
